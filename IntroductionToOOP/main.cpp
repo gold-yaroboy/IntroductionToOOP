@@ -4,6 +4,7 @@ using std::cin;
 using std::cout;
 using std::endl;
 
+#define delimeter "\n-------------------------------------------------------------------------\n"
 
 class Point
 {
@@ -27,7 +28,39 @@ public:
 		this->y = y;
 	}
 
-	double distance(Point other)
+	/*Point()
+	{
+		x = y = 0;
+		cout << "DefConstr: "<< this << endl;
+	}
+
+	Point(double x)
+	{
+		this->x=x;
+		this->y=0;
+		cout << "SinglArgConstr: " << this << endl;
+	}*/
+
+	Point(double x=0, double y=0)
+	{
+		this-> x = x;
+		this-> y = y;
+		cout << "Constr: " << this << endl;
+	}
+
+	Point(const Point& other)
+	{
+		this-> x = other.x;
+		this-> y = other.y;
+		cout << "Copy: " << this << endl;
+	}
+
+	~Point()
+	{
+		cout << "Destr: "<<this << endl;
+	}
+
+	double distance(const Point& other)const
 	{
 		double x_distance = this->x - other.x;
 		double y_distance = this->y - other.y;
@@ -35,19 +68,24 @@ public:
 		return distance;
 	}
 
+	void Print()const
+	{
+		cout << this << " : X = " << x << ", Y = " << y << endl;
+	}
 };
 
-double distance(Point a, Point b)
+double distance(const Point& a, const Point& b)
 {
+	
 	double x_distance = a.get_x() - b.get_x();
 	double y_distance = a.get_y() - b.get_y();
 	double distance = sqrt(x_distance*x_distance+y_distance*y_distance);
 	return distance;
 }
 	
-
 //#define STRUCT_POINT
-//#define DISTANCE_CHECK
+#define DISTANCE_CHECK
+//#define CONSRUCTORS_CHECK
 
 void main()
 {
@@ -74,18 +112,28 @@ void main()
 	B.set_x(7);
 	B.set_y(8);
 	cout << B.get_x() << "\t" << B.get_y() << endl;
-
+	cout << delimeter << endl;
 	cout << "Расстояние от точки А до точки В: " << A.distance(B) << endl;
+	cout << delimeter << endl;
 	cout << "Расстояние от точки B до точки A: " << B.distance(A) << endl;
+	cout << delimeter << endl;
 	cout << "Расстояние между точками А и В: " << distance(A,B) << endl;
+	cout << delimeter << endl;
 	cout << "Расстояние между точками B и A: " << distance(B,A) << endl;
 #endif
 
+#ifdef CONSRUCTORS_CHECK
 	Point A;
-	{
-		Point B;
-		cout << "Point B in real" << endl;
-	}
-	cout << "Point B not real" << endl;
+	A.Print();
+
+	Point B = 5;
+	B.Print();
+
+	Point C(7, 8);
+	C.Print();
+
+	Point D(C);
+	D.Print();
+#endif
 
 }
