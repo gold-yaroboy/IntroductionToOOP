@@ -47,6 +47,7 @@ double distance(Point a, Point b)
 	
 
 //#define STRUCT_POINT
+//#define DISTANCE_CHECK
 
 void main()
 {
@@ -63,6 +64,7 @@ void main()
 	cout << pA->x << "\t" << pA->y << endl;
 #endif
 
+#ifdef DISTANCE_CHECK
 	Point A;
 	A.set_x(2);
 	A.set_y(3);
@@ -77,5 +79,13 @@ void main()
 	cout << "Расстояние от точки B до точки A: " << B.distance(A) << endl;
 	cout << "Расстояние между точками А и В: " << distance(A,B) << endl;
 	cout << "Расстояние между точками B и A: " << distance(B,A) << endl;
-	
+#endif
+
+	Point A;
+	{
+		Point B;
+		cout << "Point B in real" << endl;
+	}
+	cout << "Point B not real" << endl;
+
 }
