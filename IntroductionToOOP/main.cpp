@@ -45,19 +45,27 @@ public:
 	{
 		this-> x = x;
 		this-> y = y;
-		cout << "Constr: " << this << endl;
+		cout << "Constructor:\t\t" << this << endl;
 	}
 
 	Point(const Point& other)
 	{
 		this-> x = other.x;
 		this-> y = other.y;
-		cout << "Copy: " << this << endl;
+		cout << "CopyConstructor:\t" << this << endl;
 	}
 
 	~Point()
 	{
-		cout << "Destr: "<<this << endl;
+		cout << "Destructor:\t\t"<< this << endl;
+	}
+
+	Point operator=(const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		cout << "CopyAssignment:\t\t" << this << endl;
+		return *this;
 	}
 
 	double distance(const Point& other)const
@@ -84,7 +92,7 @@ double distance(const Point& a, const Point& b)
 }
 	
 //#define STRUCT_POINT
-#define DISTANCE_CHECK
+//#define DISTANCE_CHECK
 //#define CONSRUCTORS_CHECK
 
 void main()
@@ -125,15 +133,33 @@ void main()
 #ifdef CONSRUCTORS_CHECK
 	Point A;
 	A.Print();
-
+	cout << delimeter << endl;
 	Point B = 5;
 	B.Print();
-
+	cout << delimeter << endl;
 	Point C(7, 8);
 	C.Print();
-
-	Point D(C);
+	cout << delimeter << endl;
+	Point D=C;
 	D.Print();
+	cout << delimeter << endl;
+	Point E;
+	E = D;
+	E.Print();
+
 #endif
 
+	int a, b, c;
+
+	a = b = c = 0;
+
+	cout << a << "\t" << b << "\t" << c << endl;
+	Point A, B, C;
+	cout << delimeter << endl;
+	A = B = C = Point(2, 3);
+	cout << delimeter << endl;
+	A.Print();
+	B.Print();
+	C.Print();
+	cout << delimeter << endl;
 }
