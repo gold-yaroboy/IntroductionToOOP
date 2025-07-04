@@ -47,25 +47,37 @@ public:
 		this-> y = y;
 		cout << "Constructor:\t\t" << this << endl;
 	}
-
 	Point(const Point& other)
 	{
 		this-> x = other.x;
 		this-> y = other.y;
 		cout << "CopyConstructor:\t" << this << endl;
 	}
-
 	~Point()
 	{
 		cout << "Destructor:\t\t"<< this << endl;
 	}
-
 	Point operator=(const Point& other)
 	{
 		this->x = other.x;
 		this->y = other.y;
 		cout << "CopyAssignment:\t\t" << this << endl;
 		return *this;
+	}
+
+	Point& operator++()
+	{
+		x++;
+		y++;
+		return *this;
+	}
+
+	Point operator++(int)
+	{
+		Point old = *this;
+		x++;
+		y++;
+		return old;
 	}
 
 	double distance(const Point& other)const
@@ -75,7 +87,6 @@ public:
 		double distance = sqrt(x_distance*x_distance+y_distance*y_distance);//квадратный корень
 		return distance;
 	}
-
 	void Print()const
 	{
 		cout << this << " : X = " << x << ", Y = " << y << endl;
@@ -91,9 +102,29 @@ double distance(const Point& a, const Point& b)
 	return distance;
 }
 	
+Point operator+(const Point left, const Point right)
+{
+	Point result;
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	return result;
+}
+
+bool operator==(const Point& left, const Point right)
+{
+	return left.get_x() == right.get_x() && left.get_y() == right.get_y();
+}
+
+bool operator!=(const Point& left, const Point right)
+{
+	return !(left == right);
+}
+
 //#define STRUCT_POINT
 //#define DISTANCE_CHECK
 //#define CONSRUCTORS_CHECK
+//#define ASSIGNMENT_CHECK
+//#define ARITHMETICAL_CHECK
 
 void main()
 {
@@ -149,6 +180,7 @@ void main()
 
 #endif
 
+#ifdef ASSIGNMENT_CHECK
 	int a, b, c;
 
 	a = b = c = 0;
@@ -162,4 +194,19 @@ void main()
 	B.Print();
 	C.Print();
 	cout << delimeter << endl;
+#endif
+
+#ifdef ARITHMETICAL_CHECK
+	Point A(2, 3);
+	Point B(7, 8);
+	Point C = A + B;
+	C.Print();
+
+	A = B++;
+	A.Print();
+	B.Print();
+#endif
+
+	cout << (Point(2, 3) != Point(2, 3)) << endl;	
+
 }
