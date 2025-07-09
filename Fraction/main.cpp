@@ -203,9 +203,40 @@ Fraction operator/(const Fraction& left, const Fraction& right)
 	return left * right.inverted();
 }
 
+bool operator==(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return left.get_numerator() * right.get_denominator() == right.get_numerator() * left.get_denominator();
+}
+bool operator!=(const Fraction& left, const Fraction& right)
+{
+	return !(left == right);
+}
+bool operator>(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return left.get_numerator() * right.get_denominator() > right.get_numerator() * left.get_denominator();
+}
+bool operator<(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return left.get_numerator() * right.get_denominator() < right.get_numerator() * left.get_denominator();
+}
+bool operator>=(const Fraction& left, const Fraction& right)
+{
+	return !(left < right);
+}
+bool operator<= (const Fraction& left, const Fraction& right)
+{
+	return !(left > right);
+}
+
 #define delimeter "\n---------------------------------------------\n"
 //#define CONSTRUCTORS_CHECK
-#define ARITHMETICAL_CHECK
+//#define ARITHMETICAL_CHECK
 //#define INCREMENTO_CHECK
 #define _CHECK
 
@@ -274,7 +305,7 @@ void main()
 
 #ifdef _CHECK
 
-
+	cout << (Fraction(1, 2) >= Fraction(5, 10)) << endl;
 
 #endif
 
