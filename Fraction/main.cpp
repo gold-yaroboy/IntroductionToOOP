@@ -45,7 +45,7 @@ class Fraction
 			set_denominator(1);
 			cout << "DefaultConstructor:\t" << this << endl;
 		}
-		Fraction(int integer)
+		explicit Fraction(int integer)
 		{
 			this->integer = integer;
 			this->numerator = 0;
@@ -142,12 +142,32 @@ class Fraction
 			integer++;
 			return *this;
 		}
-
 		const Fraction operator++(int)
 		{
 			Fraction old = *this;
 			integer++;
 			return old;
+		}
+
+		Fraction& operator--()
+		{
+			integer--;
+			return *this;
+		}
+		const Fraction operator--(int)
+		{
+			Fraction old = *this;
+			integer--;
+			return old;
+		}
+
+		explicit operator int()const
+		{
+			return integer + numerator / denominator;
+		}
+		explicit operator double()const
+		{
+			return double(integer) + numerator / denominator;
 		}
 
 		void print()const
@@ -234,11 +254,27 @@ bool operator<= (const Fraction& left, const Fraction& right)
 	return !(left > right);
 }
 
+std::ostream& operator<<(std::ostream& os, const Fraction& obj)
+{
+	if (obj.get_integer())os << obj.get_integer();
+	if (obj.get_numerator())
+	{
+		if (obj.get_integer()) os << "(";
+		os << obj.get_numerator() << "/" << obj.get_denominator();
+		if (obj.get_integer())os << ")";
+	}
+	else if (obj.get_integer() == 0) os << 0;
+	return os;
+}
+
 #define delimeter "\n---------------------------------------------\n"
 //#define CONSTRUCTORS_CHECK
 //#define ARITHMETICAL_CHECK
 //#define INCREMENTO_CHECK
-#define _CHECK
+//#define COMPARISON_CHECK
+//#define STREAMS_CHECK
+//#define CONVERSIONS_FROM_OTHER_TO_CLASS
+#define CONVERSIONS_FROM_CLASS_TO_OTHER
 
 void main()
 {
@@ -262,7 +298,6 @@ void main()
 	cout << delimeter << endl;
 
 #endif
-
 #ifdef ARITHMETICAL_CHECK
 
 	Fraction A(2, 3, 4);
@@ -293,7 +328,6 @@ void main()
 	C.print();
 
 #endif
-
 #ifdef INCREMENTO_CHECK
 
 	Fraction A(2, 3, 4);
@@ -302,10 +336,37 @@ void main()
 	B.print();
 
 #endif
-
-#ifdef _CHECK
+#ifdef COMPARISON_CHECK
 
 	cout << (Fraction(1, 2) >= Fraction(5, 10)) << endl;
+
+#endif
+#ifdef STREAMS_CHECK
+
+	Fraction A(2, 3, 4);
+	cout <<"¬ведите простую дробь: ";
+	cin >> A;
+	cout << A << endl;
+
+#endif
+#ifdef CONVERSIONS_FROM_OTHER_TO_CLASS
+
+	Fraction A = (Fraction)5;
+	cout << A << endl;
+
+	Fraction B; 
+	cout << (B = Fraction(8)) << endl;
+		
+#endif
+#ifdef CONVERSIONS_FROM_CLASS_TO_OTHER
+
+	Fraction A(2, 3, 4);
+	A.to_improper().print();
+	int a = (int)A;
+	cout << a << endl;
+
+	double b = A;
+	cout << b << endl;
 
 #endif
 
